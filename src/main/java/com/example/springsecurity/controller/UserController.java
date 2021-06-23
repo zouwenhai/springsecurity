@@ -7,6 +7,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.springsecurity.common.utils.SHAUtils;
 import com.example.springsecurity.model.req.LoginReq;
+import com.example.springsecurity.model.resp.ResultVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -53,7 +54,7 @@ public class UserController {
 
     @ApiOperation("登陆")
     @RequestMapping(value = "/user/login", method = RequestMethod.POST)
-    public String login(LoginReq loginReq) {
+    public ResultVO<String> login(LoginReq loginReq) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginReq.getUserName(), loginReq.getPassword()));
         if (authentication.isAuthenticated()) {
             //创建token
@@ -66,15 +67,17 @@ public class UserController {
             DecodedJWT jwt = verifier.verify(token);
             log.info(jwt.getToken());
             log.info(token);
+            return ResultVO.ok(token);
         }
-        return "fail";
+        return ResultVO.error();
+
     }
 
 
     @ApiOperation("用户列表")
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public String user() {
-        log.info("user:{}","user");
+        log.info("user:{}", "user");
         return "success";
     }
 }
