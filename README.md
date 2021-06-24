@@ -7,6 +7,8 @@ jwt的第三部分就是是sha256（header.payload，secret）
 
 jwt = header.payload.sha256(header.secret)
 
+#### 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
+
 ### 任务
 
 ###### 1 需要写一个全局异常器，统一返回异常给前端。比如说未登录,或者token校验失效 [完成]
